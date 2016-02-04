@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   
   def index
+
   end
 
 ## this is for admin page
