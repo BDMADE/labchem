@@ -9,4 +9,9 @@ class AdminController < ApplicationController
 
   end
 
+
+  def dashboard
+    
+  end
+
 end
