@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :roles
   resources :members
   root 'home#index'
-  get 'admin' =>'home#admin'
+  get 'admin' =>'admin#index'
   devise_for :users, controllers: {registrations: 'registrations'}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
