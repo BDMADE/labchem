@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   
   def index
-
+@sliders = Slider.all
   end
 
 ## this is for admin page
