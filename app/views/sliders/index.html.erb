@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>image</th>
       <th>Caption</th>
       <th colspan="3"></th>
     </tr>
@@ -13,6 +14,7 @@
   <tbody>
     <% @sliders.each do |slider| %>
       <tr>
+        <td><%= image_tag slider.image.url(:small) %></td>
         <td><%= slider.caption %></td>
         <td><%= link_to 'Show', slider %></td>
         <td><%= link_to 'Edit', edit_slider_path(slider) %></td>

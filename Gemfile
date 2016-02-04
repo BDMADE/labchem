@@ -55,3 +55,6 @@ gem 'better_errors', '~> 2.1', '>= 2.1.1'
 gem 'devise'
 # install gem better_error
 gem 'cancan'
+
+# install paperclip
+gem "paperclip"
