@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sliders
   resources :posts
   resources :roles
   resources :members
