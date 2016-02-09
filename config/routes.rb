@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+  resources :customers
   resources :sliders
   resources :posts
   resources :roles
   resources :members
   root 'home#index'
   get 'admin' =>'admin#index'
+  get 'dashboard' =>'admin#dashboard'
+
 
   devise_for :users, controllers: {registrations: 'registrations'}
   # The priority is based upon order of creation: first created -> highest priority.

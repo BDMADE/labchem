@@ -1,0 +1,119 @@
+<%= render 'customers/customer_head_files' %>
+
+<div class='ui-widget-content ui-corner-all datatables'>
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default form-title">
+    <div class='floatL form-title-left'>
+      <a href="#"><%= @form_title %> Customer</a>
+    </div>
+    <div class='clear'></div>
+  </h3>
+
+
+  <div class='form-content form-div'>
+
+
+    <%= form_for(@customer, html: {id: 'crudForm', autocomplete: 'off', enctype: 'multipart/form-data'}) do |f| %>
+
+        <% if @customer.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+              <ul>
+                <% @customer.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+
+        <div>
+          <div class='form-field-box odd' id="name_field_box">
+            <div class='form-display-as-box' id="name_display_as_box">
+              Name :
+            </div>
+            <div class='form-input-box' id="name_input_box">
+              <%= f.text_field :name, id: 'field-name', maxlength: '255',required:'required' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box even' id="phone1_field_box">
+            <div class='form-display-as-box' id="phone1_display_as_box">
+              Phone1 :
+            </div>
+            <div class='form-input-box' id="phone1_input_box">
+              <%= f.number_field :phone1, id: 'field-phone1', maxlength: '16', type: 'text' %>
+            </div>
+
+            <div class='clear'></div>
+          </div>
+          <div class='form-field-box odd' id="phone2_field_box">
+            <div class='form-display-as-box' id="phone2_display_as_box">
+              Phone2 :
+            </div>
+            <div class='form-input-box' id="phone2_input_box">
+              <%= f.number_field :phone2, id: 'field-phone2', maxlength: '16', type: 'text' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+          <div class='form-field-box even' id="email_field_box">
+            <div class='form-display-as-box' id="email_display_as_box">
+              Email :
+            </div>
+            <div class='form-input-box' id="email_input_box">
+              <%= f.text_field :email, id: 'field-email', maxlength: '255',required:'required' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+          <div class='form-field-box odd' id="company_field_box">
+            <div class='form-display-as-box' id="company_display_as_box">
+              Company :
+            </div>
+            <div class='form-input-box' id="company_input_box">
+              <%= f.text_field :company, id: 'field-company', maxlength: '255',required:'required' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+          <div class='form-field-box even' id="delivery_address_field_box">
+            <div class='form-display-as-box' id="delivery_address_display_as_box">
+              Delivery address :
+            </div>
+            <div class='form-input-box' id="delivery_address_input_box">
+              <%= f.text_area :delivery_address, id: 'field-delivery_address',required:'required' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <%= f.hidden_field :uid, value: rand(9999999999999999) %>
+
+          <% if !notice.nil? %>
+              <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= notice %>&nbsp;&nbsp;&nbsp;<%= link_to 'Go to back list',customers_path %>
+              </div>
+
+          <% end %>
+        </div>
+        <div class='buttons-box'>
+          <div class='form-button-box'>
+            <%= f.submit 'Update changes', id: 'form-button-save', :class => 'ui-input-button', :name => 'ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= f.submit 'Update and go back to list', :class => 'ui-input-button', :name => 'not_ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= link_to 'Cancel', customers_path, :class => 'ui-input-button' %>
+          </div>
+
+
+
+
+
+
+          <div class='clear'></div>
+        </div>
+    <% end %>
+  </div>
+</div>
+

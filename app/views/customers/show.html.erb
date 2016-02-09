@@ -1,0 +1,78 @@
+    <%= render 'customers/customer_head_files' %>
+
+  <div class='ui-widget-content ui-corner-all datatables'>
+    <h3 class="ui-accordion-header ui-helper-reset ui-state-default form-title">
+      <div class='floatL form-title-left'>
+        <a href="#"><%= @form_title %> Customer</a>
+      </div>
+      <div class='clear'></div>
+    </h3>
+
+
+    <div class='form-content form-div'>
+
+      <div>
+        <div class='form-field-box odd' id="name_field_box">
+          <div class='form-display-as-box' id="name_display_as_box">
+            Name :
+          </div>
+          <div class='form-input-box' id="name_input_box">
+            <div id="field-name" class="readonly_label"><%= @customer.name %></div>				</div>
+          <div class='clear'></div>
+        </div>
+        <div class='form-field-box even' id="phone1_field_box">
+          <div class='form-display-as-box' id="phone1_display_as_box">
+            Phone1 :
+          </div>
+          <div class='form-input-box' id="phone1_input_box">
+            <div id="field-phone1" class="readonly_label"><%= @customer.phone1 %></div>				</div>
+          <div class='clear'></div>
+        </div>
+        <div class='form-field-box odd' id="phone2_field_box">
+          <div class='form-display-as-box' id="phone2_display_as_box">
+            Phone2 :
+          </div>
+          <div class='form-input-box' id="phone2_input_box">
+            <div id="field-phone2" class="readonly_label"> <%= @customer.phone2 %></div>				</div>
+          <div class='clear'></div>
+        </div>
+        <div class='form-field-box even' id="email_field_box">
+          <div class='form-display-as-box' id="email_display_as_box">
+            Email :
+          </div>
+          <div class='form-input-box' id="email_input_box">
+            <div id="field-email" class="readonly_label"><%= @customer.email %></div>				</div>
+          <div class='clear'></div>
+        </div>
+        <div class='form-field-box odd' id="company_field_box">
+          <div class='form-display-as-box' id="company_display_as_box">
+            Company :
+          </div>
+          <div class='form-input-box' id="company_input_box">
+            <div id="field-company" class="readonly_label"><%= @customer.company %></div>				</div>
+          <div class='clear'></div>
+        </div>
+        <div class='form-field-box even' id="delivery_address_field_box">
+          <div class='form-display-as-box' id="delivery_address_display_as_box">
+            Delivery address :
+          </div>
+          <div class='form-input-box' id="delivery_address_input_box">
+            <div id="field-delivery_address" class="readonly_label"><%= @customer.delivery_address %></div>				</div>
+          <div class='clear'></div>
+        </div>
+
+
+      </div>
+      <div class='buttons-box'>
+        <div class='form-button-box'>
+          <%= link_to 'Back to list',customers_path,class:'ui-input-button back-to-list'  %>
+        </div>
+        <div class='clear'></div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+

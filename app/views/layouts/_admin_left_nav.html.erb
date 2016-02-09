@@ -1,0 +1,19 @@
+<div style="width: 155px;" class="col-sm-3 col-md-2 sidebar">
+  <ul class="nav nav-sidebar">
+    <li class="divider">__________________________</li>
+    <li class=""><a href="#">Orders</a></li>
+    <li class=""><a href="#">Customers</a></li>
+    <li class=""><a href="#">Carts</a></li>
+    <li class="divider">__________________________</li>
+    <li class=""><a href="#">Products</a></li>
+    <li class=""><a href="#">Categories</a></li>
+    <li class=""><a href="#">Suppliers</a></li>
+    <li class="divider">__________________________</li>
+    <li class=""><%= link_to 'Slider Pics', sliders_path %></li>
+    <li class="divider">__________________________</li>
+    <li class=""><%= link_to 'Admins',members_path %></li>
+    <li class="divider">__________________________</li>
+    <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+    <li class="divider">__________________________</li>
+  </ul>
+</div>

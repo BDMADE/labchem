@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<%= render 'layouts/admin_head' %>
+<body>
+
+<%= render 'layouts/admin_top_bar' %>
+<div class="container-fluid">
+  <div class="row">
+<%= render 'layouts/admin_left_nav' %>
+    <div style="padding: 10px 0 0 185px; margin: 0px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+<%= yield %>
+
+    </div>
+  </div>
+</div>
+
+<%= render 'layouts/admin_js' %>
+
+</body>
+</html>
+
