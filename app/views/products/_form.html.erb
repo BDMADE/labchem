@@ -1,0 +1,155 @@
+<%= render 'products/product_head_files' %>
+
+
+
+<div class='ui-widget-content ui-corner-all datatables'>
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default form-title">
+    <div class='floatL form-title-left'>
+      <a href="#"><%= @form_title %> Product</a>
+    </div>
+    <div class='clear'></div>
+  </h3>
+  <div class='form-content form-div'>
+
+    <%= form_for(@product, html: {id: 'crudForm', autocomplete: 'off', enctype: 'multipart/form-data'}) do |f| %>
+
+        <% if @product.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+              <ul>
+                <% @product.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div>
+
+          <div class='form-field-box odd' id="order_total_field_box">
+            <div class='form-display-as-box' id="order_total_display_as_box">
+              Name :
+            </div>
+            <div class='form-input-box' id="order_total_input_box">
+              <%= f.text_field :name, id: 'field-name', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+
+          <div class='form-field-box odd' id="order_total_field_box">
+            <div class='form-display-as-box' id="order_total_display_as_box">
+              Unit :
+            </div>
+            <div class='form-input-box' id="order_total_input_box">
+              <%= f.text_field :unit, id: 'field-name', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+
+          <div class='form-field-box odd' id="order_total_field_box">
+            <div class='form-display-as-box' id="order_total_display_as_box">
+              Unit price :
+            </div>
+            <div class='form-input-box' id="order_total_input_box">
+              <%= f.text_field :unit_price, id: 'field-name', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box odd' id="staus_field_box">
+            <div class='form-display-as-box' id="staus_display_as_box">
+              Category id :
+            </div>
+            <div class='form-input-box' id="staus_input_box">
+
+              <%= f.collection_select :category_id, Category.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
+
+            </div>
+
+
+            <div class='clear'></div>
+          </div>
+
+
+          <div class='form-field-box odd' id="supplier_id_field_box">
+            <div class='form-display-as-box' id="supplier_id_display_as_box">
+              Supplier id :
+            </div>
+            <div class='form-input-box' id="supplier_id_input_box">
+              <%= f.collection_select :supplier_ids,Supplier.all, :id, :name, {:prompt => true}, {:class => 'chosen-multiple-select',:multiple=>'multiple',:style=>'width:510px',:size=>'8'} %>
+              </div>
+            <div class='clear'></div>
+          </div>
+
+
+
+
+
+          <div class='form-field-box odd' id="tax_field_box">
+
+            <div class='form-display-as-box' id="tax_display_as_box">
+              Purchase price :
+            </div>
+
+            <div class='form-input-box' id="tax_input_box">
+
+              <%= f.text_field :purchase_price, id: 'field-tax', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box even' id="notes_field_box">
+            <div class='form-display-as-box' id="notes_display_as_box">
+              Description :
+            </div>
+
+            <div class='form-input-box' id="notes_input_box">
+
+              <%= f.text_area :description %>
+
+            </div>
+            <div class='clear'></div>
+          </div>
+
+
+
+
+
+
+
+          <div class='line-1px'></div>
+
+          <% if !notice.nil? %>
+              <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= notice %>&nbsp;&nbsp;&nbsp;<%= link_to 'Go to back list',products_path %>
+              </div>
+
+          <% end %>
+
+        </div>
+
+
+        </div>
+
+        <div class='buttons-box'>
+          <div class='form-button-box'>
+            <%= f.submit 'Update changes', id: 'form-button-save', :class => 'ui-input-button', :name => 'ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= f.submit 'Update and go back to list', :class => 'ui-input-button', :name => 'not_ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= link_to 'Cancel', products_path, :class => 'ui-input-button' %>
+          </div>
+
+
+          <div class='clear'></div>
+        </div>
+
+    <% end %>
+    </div>
+</div>

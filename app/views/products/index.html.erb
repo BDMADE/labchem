@@ -1,0 +1,81 @@
+<%= render 'layouts/common_head_files_for_datatable' %>
+<%= render 'layouts/admin_notice_box' %>
+<%= render 'layouts/common_script' %>
+
+<div class="datatables-add-button">
+  <a role="button" class="add_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" href="<%= new_product_path %>">
+    <span class="ui-button-icon-primary ui-icon ui-icon-circle-plus"></span>
+    <span class="ui-button-text">Add Product</span>
+  </a>
+</div>
+<div style='height:10px;'></div>
+<div class="dataTablesContainer">
+  <table cellpadding="0" cellspacing="0" border="0" class="display groceryCrudTable" id="56b9c412d3859">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Unit :</th>
+      <th>Unit price :</th>
+      <th>Purchase price :</th>
+      <th>Description :</th>
+      <th>Category id :</th>
+      <th>Supplier id :</th>
+      <th class='actions'>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @products.each do |product| %>
+        <tr id='row-<%= product.id %>'>
+          <td><%= product.name %></td>
+          <td><%= product.unit %></td>
+          <td><%= product.unit_price %></td>
+          <td><%= product.purchase_price %></td>
+          <td><%= product.description %></td>
+          <td><%= product.category.name %></td>
+          <td><%= product.suppliers.map {|c| c.name}.join(', ') %></td>
+
+          <td class='actions'>
+
+
+
+            <a href="<%= product_path(product.id) %>" class="edit_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button">
+              <span class="ui-button-icon-primary ui-icon ui-icon-document"></span>
+              <span class="ui-button-text">&nbsp;View</span>
+            </a>
+
+            <a href="<%= edit_product_path(product) %>" class="edit_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button">
+              <span class="ui-button-icon-primary ui-icon ui-icon-pencil"></span>
+              <span class="ui-button-text">&nbsp;Edit</span>
+            </a>
+
+            <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" class="delete_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" href="<%= product_path(product.id) %>">
+              <span class="ui-button-icon-primary ui-icon ui-icon-circle-minus"></span>
+              <span class="ui-button-text">&nbsp;Delete</span>
+            </a>
+          </td>
+        </tr>
+    <% end %>
+
+    </tbody>
+    <tfoot>
+    <tr>
+      <th><input type="text" name="name" placeholder="Search Name" class="search_name" /></th>
+      <th><input type="text" name="unit" placeholder="Search Unit" class="search_unit" /></th>
+      <th><input type="text" name="unit price" placeholder="Search Unit Price" class="search_price" /></th>
+      <th><input type="text" name="purchase price" placeholder="Search Price" class="search_price" /></th>
+      <th><input type="text" name="description" placeholder="Search Description" class="search_description" /></th>
+      <th><input type="text" name="category" placeholder="Search Category" class="search_category" /></th>
+      <th><input type="text" name="suppliers" placeholder="Search Delivery Suppliers" class="search_suppliers" /></th>
+      <th>
+        <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only floatR " role="button" data-url="#">
+          <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span><span class="ui-button-text">&nbsp;</span>
+        </button>
+        <a href="<%= products_path %>" role="button" class="clear-filtering ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary floatR">
+          <span class="ui-button-icon-primary ui-icon ui-icon-arrowrefresh-1-e"></span>
+          <span class="ui-button-text">Clear filtering</span>
+        </a>
+      </th>
+    </tr>
+    </tfoot>
+  </table>
+</div>
