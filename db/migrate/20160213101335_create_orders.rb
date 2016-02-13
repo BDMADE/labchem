@@ -3,9 +3,9 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.integer :order_total
       t.datetime :date_received
-      t.string :status
+      t.references :status, index: true, foreign_key: true,:default=>1
       t.datetime :date_shipped
-      t.string :shipment_method
+      t.references :shipmentmethod, index: true, foreign_key: true,:default=>1
       t.integer :shipment_cost
       t.integer :tax
       t.text :notes

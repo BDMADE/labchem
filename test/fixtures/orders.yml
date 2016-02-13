@@ -2,10 +2,10 @@
 
 one:
   order_total: 1
-  date_received: 2016-02-09 20:27:14
-  status: MyString
-  date_shipped: 2016-02-09 20:27:14
-  shipment_method: MyString
+  date_received: 2016-02-13 16:13:35
+  status_id: 
+  date_shipped: 2016-02-13 16:13:35
+  shipmentmethod_id: 
   shipment_cost: 1
   tax: 1
   notes: MyText
@@ -14,10 +14,10 @@ one:
 
 two:
   order_total: 1
-  date_received: 2016-02-09 20:27:14
-  status: MyString
-  date_shipped: 2016-02-09 20:27:14
-  shipment_method: MyString
+  date_received: 2016-02-13 16:13:35
+  status_id: 
+  date_shipped: 2016-02-13 16:13:35
+  shipmentmethod_id: 
   shipment_cost: 1
   tax: 1
   notes: MyText

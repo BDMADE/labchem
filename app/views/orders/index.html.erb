@@ -1,45 +1,74 @@
-<p id="notice"><%= notice %></p>
+<%= render 'layouts/common_head_files_for_datatable' %>
+<%= render 'layouts/admin_notice_box' %>
 
-<h1>Listing Orders</h1>
+<%= render 'layouts/common_script' %>
 
-<table>
-  <thead>
+
+<div style='height:10px;'></div>
+<div class="dataTablesContainer">
+  <table cellpadding="0" cellspacing="0" border="0" class="display groceryCrudTable" id="56b9c412d3859">
+    <thead>
     <tr>
       <th>Order total</th>
-      <th>Date received</th>
+      <th>Delivery address</th>
+      <th>Name</th>
+      <th>Phone1</th>
+      <th>Date Received</th>
       <th>Status</th>
-      <th>Date shipped</th>
-      <th>Shipment method</th>
-      <th>Shipment cost</th>
-      <th>Tax</th>
-      <th>Notes</th>
-      <th>Total</th>
-      <th>Customer</th>
-      <th colspan="3"></th>
+      <th class='actions'>Actions</th>
     </tr>
-  </thead>
-
-  <tbody>
+    </thead>
+    <tbody>
     <% @orders.each do |order| %>
-      <tr>
-        <td><%= order.order_total %></td>
-        <td><%= order.date_received %></td>
-        <td><%= order.status %></td>
-        <td><%= order.date_shipped %></td>
-        <td><%= order.shipment_method %></td>
-        <td><%= order.shipment_cost %></td>
-        <td><%= order.tax %></td>
-        <td><%= order.notes %></td>
-        <td><%= order.total %></td>
-        <td><%= order.customer %></td>
-        <td><%= link_to 'Show', order %></td>
-        <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tr id='row-<%= order.id %>'>
+          <td><%= order.order_total %></td>
+          <td><%= order.customer.delivery_address %></td>
+          <td><%= order.customer.name %></td>
+          <td><%= order.customer.phone1 %></td>
+          <td><%= order.date_received %></td>
+          <td><%= order.status.name %></td>
+
+          <td class='actions'>
+
+
+
+            <a href="<%= order_path(order.id) %>" class="edit_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button">
+              <span class="ui-button-icon-primary ui-icon ui-icon-document"></span>
+              <span class="ui-button-text">&nbsp;View</span>
+            </a>
+
+            <a href="<%= edit_order_path(order) %>" class="edit_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button">
+              <span class="ui-button-icon-primary ui-icon ui-icon-pencil"></span>
+              <span class="ui-button-text">&nbsp;Edit</span>
+            </a>
+
+            <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" class="delete_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" href="<%= order_path(order.id) %>">
+              <span class="ui-button-icon-primary ui-icon ui-icon-circle-minus"></span>
+              <span class="ui-button-text">&nbsp;Delete</span>
+            </a>
+          </td>
+        </tr>
     <% end %>
-  </tbody>
-</table>
 
-<br>
-
-<%= link_to 'New Order', new_order_path %>
+    </tbody>
+    <tfoot>
+    <tr>
+      <th><input type="text" name="name" placeholder="Search Name" class="search_name" /></th>
+      <th><input type="text" name="phone1" placeholder="Search Phone1" class="search_phone1" /></th>
+      <th><input type="text" name="phone2" placeholder="Search Phone2" class="search_phone2" /></th>
+      <th><input type="text" name="email" placeholder="Search Email" class="search_email" /></th>
+      <th><input type="text" name="company" placeholder="Search Company" class="search_company" /></th>
+      <th><input type="text" name="delivery_address" placeholder="Search Delivery address" class="search_delivery_address" /></th>
+      <th>
+        <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only floatR " role="button" data-url="#">
+          <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span><span class="ui-button-text">&nbsp;</span>
+        </button>
+        <a href="<%= customers_path %>" role="button" class="clear-filtering ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary floatR">
+          <span class="ui-button-icon-primary ui-icon ui-icon-arrowrefresh-1-e"></span>
+          <span class="ui-button-text">Clear filtering</span>
+        </a>
+      </th>
+    </tr>
+    </tfoot>
+  </table>
+</div>

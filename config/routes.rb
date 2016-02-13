@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :products
   resources :orders
+  resources :shipmentmethods
+  resources :statuses
+  resources :products
   resources :customers
   resources :sliders
   resources :posts

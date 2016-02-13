@@ -56,4 +56,22 @@ format.html {
 solution: in migration page
 t.string :name,:limit=>255
 t.integer :phone1,:limit=>16
-      
+
+
+7. how to rollback a specific table from terminal in rails ?
+solution:just write this code from terminal
+
+$ rake db:migrate:down VERSION=<table migration number>
+
+example: we will rollback our order table.so that we will find our order table schema is located in db->migrate->20160209142714_create_orders.rb
+
+From terminal:
+
+$ rake db:migrate:down VERSION=20160209142714
+
+8.how to add class name in collection_select in rails 4?
+
+solution:
+<%= f.collection_select :status, ShipmentStatus.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
+
+9. How to make sum using multiple params from a controller?

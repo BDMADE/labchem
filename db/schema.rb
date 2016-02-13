@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209142714) do
+ActiveRecord::Schema.define(version: 20160213101335) do
 
   create_table "customers", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -28,21 +28,29 @@ ActiveRecord::Schema.define(version: 20160209142714) do
   create_table "orders", force: :cascade do |t|
     t.integer  "order_total"
     t.datetime "date_received"
-    t.string   "status"
+    t.integer  "status_id",         default: 1
     t.datetime "date_shipped"
-    t.string   "shipment_method"
+    t.integer  "shipmentmethod_id", default: 1
     t.integer  "shipment_cost"
     t.integer  "tax"
     t.text     "notes"
     t.integer  "total"
     t.integer  "customer_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
+  add_index "orders", ["shipmentmethod_id"], name: "index_orders_on_shipmentmethod_id"
+  add_index "orders", ["status_id"], name: "index_orders_on_status_id"
 
   create_table "roles", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "shipmentmethods", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -56,6 +64,12 @@ ActiveRecord::Schema.define(version: 20160209142714) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

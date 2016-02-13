@@ -5,6 +5,10 @@
       <w>byperson</w>
       <w>inprocess</w>
       <w>labchem</w>
+      <w>shipmentmethod</w>
+      <w>shipmentmethods</w>
+      <w>shipmentstatus</w>
+      <w>shipmentstatuses</w>
     </words>
   </dictionary>
 </component>

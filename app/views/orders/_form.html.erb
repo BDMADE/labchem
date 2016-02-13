@@ -1,57 +1,183 @@
-<%= form_for(@order) do |f| %>
-  <% if @order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+<%= render 'orders/order_head_files' %>
 
-      <ul>
-      <% @order.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<script type="text/javascript">
+    var js_date_format = 'dd/mm/yy';
+</script>
+
+<div class='ui-widget-content ui-corner-all datatables'>
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default form-title">
+    <div class='floatL form-title-left'>
+      <a href="#"><%= @form_title %> Order</a>
     </div>
-  <% end %>
+    <div class='clear'></div>
+  </h3>
+  <div class='form-content form-div'>
 
-  <div class="field">
-    <%= f.label :order_total %><br>
-    <%= f.number_field :order_total %>
-  </div>
-  <div class="field">
-    <%= f.label :date_received %><br>
-    <%= f.datetime_select :date_received %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
-  <div class="field">
-    <%= f.label :date_shipped %><br>
-    <%= f.datetime_select :date_shipped %>
-  </div>
-  <div class="field">
-    <%= f.label :shipment_method %><br>
-    <%= f.text_field :shipment_method %>
-  </div>
-  <div class="field">
-    <%= f.label :shipment_cost %><br>
-    <%= f.number_field :shipment_cost %>
-  </div>
-  <div class="field">
-    <%= f.label :tax %><br>
-    <%= f.number_field :tax %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %><br>
-    <%= f.text_area :notes %>
-  </div>
-  <div class="field">
-    <%= f.label :total %><br>
-    <%= f.number_field :total %>
-  </div>
-  <div class="field">
-    <%= f.label :customer_id %><br>
-    <%= f.text_field :customer_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+    <%= form_for(@order, html: {id: 'crudForm', autocomplete: 'off', enctype: 'multipart/form-data'}) do |f| %>
+
+        <% if @order.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+              <ul>
+                <% @order.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div>
+
+          <div class='form-field-box odd' id="order_total_field_box">
+            <div class='form-display-as-box' id="order_total_display_as_box">
+              Order total :
+            </div>
+            <div class='form-input-box' id="order_total_input_box">
+              <%= f.text_field :order_total, id: 'field-order_total', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+          <div class='form-field-box even' id="date_received_field_box">
+            <div class='form-display-as-box' id="date_received_display_as_box">
+              Date received :
+            </div>
+            <div class='form-input-box' id="date_received_input_box">
+
+              <%= f.text_field :date_received, id: 'field-date_received', maxlength: '19', class: 'datetime-input' %>
+
+              <a class='datetime-input-clear' tabindex='-1'>Clear</a>
+              (dd/mm/yyyy) hh:mm:ss
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box odd' id="staus_field_box">
+            <div class='form-display-as-box' id="staus_display_as_box">
+              Staus :
+            </div>
+            <div class='form-input-box' id="staus_input_box">
+
+
+              <%= f.collection_select :status_id, Status.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
+
+            </div>
+
+
+            <div class='clear'></div>
+          </div>
+
+
+          <div class='form-field-box even' id="date_shipped_field_box">
+            <div class='form-display-as-box' id="date_shipped_display_as_box">
+              Date shipped :
+            </div>
+            <div class='form-input-box' id="date_shipped_input_box">
+              <%= f.text_field :date_shipped, id: 'field-date_shipped', maxlength: '19', class: 'datetime-input' %>
+              <a class='datetime-input-clear' tabindex='-1'>Clear</a>
+              (dd/mm/yyyy) hh:mm:ss
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box odd' id="shipment_method_field_box">
+            <div class='form-display-as-box' id="shipment_method_display_as_box">
+              Shipment method :
+            </div>
+            <div class='form-input-box' id="shipment_method_input_box">
+
+
+              <%= f.collection_select :shipmentmethod_id, Shipmentmethod.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
+
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box even' id="shipment_cost_field_box">
+            <div class='form-display-as-box' id="shipment_cost_display_as_box">
+              Shipment cost :
+            </div>
+            <div class='form-input-box' id="shipment_cost_input_box">
+
+              <%= f.text_field :shipment_cost, id: 'field-shipment_cost', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box odd' id="tax_field_box">
+
+            <div class='form-display-as-box' id="tax_display_as_box">
+              Tax :
+            </div>
+
+            <div class='form-input-box' id="tax_input_box">
+
+              <%= f.text_field :tax, id: 'field-tax', maxlength: '15,2' %>
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box even' id="notes_field_box">
+            <div class='form-display-as-box' id="notes_display_as_box">
+              Notes :
+            </div>
+
+            <div class='form-input-box' id="notes_input_box">
+
+              <%= f.text_area :notes %>
+
+            </div>
+            <div class='clear'></div>
+          </div>
+
+          <div class='form-field-box odd' id="customer_field_box">
+            <div class='form-display-as-box' id="customer_display_as_box">
+              Customer:
+            </div>
+            <div class='form-input-box' id="shipment_method_input_box">
+
+
+              <%= f.collection_select :customer_id, Customer.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
+
+            </div>
+            <div class='clear'></div>
+          </div>
+
+
+
+
+
+
+          <div class='line-1px'></div>
+
+          <% if !notice.nil? %>
+              <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%= notice %>&nbsp;&nbsp;&nbsp;<%= link_to 'Go to back list',orders_path %>
+              </div>
+
+          <% end %>
+
+        </div>
+
+
+        </div>
+
+        <div class='buttons-box'>
+          <div class='form-button-box'>
+            <%= f.submit 'Update changes', id: 'form-button-save', :class => 'ui-input-button', :name => 'ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= f.submit 'Update and go back to list', :class => 'ui-input-button', :name => 'not_ajax_save' %>
+          </div>
+          <div class='form-button-box'>
+            <%= link_to 'Cancel', orders_path, :class => 'ui-input-button' %>
+          </div>
+
+
+          <div class='clear'></div>
+        </div>
+
+    <% end %>
+    </div>
+</div>
