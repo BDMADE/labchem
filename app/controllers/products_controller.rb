@@ -12,17 +12,20 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    @form_title='Record'
   end
 
   # GET /products/new
   def new
     @product = Product.new
     @suppliers= Supplier.all
+    @form_title='New'
   end
 
   # GET /products/1/edit
   def edit
     @suppliers= Supplier.all
+    @form_title='Edit'
   end
 
   # POST /products

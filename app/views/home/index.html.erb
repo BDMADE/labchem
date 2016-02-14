@@ -1,3 +1,21 @@
+<% content_for :style do %>
+    style="background-color:#d7d7d7"
+<% end %>
+
+<% content_for :extra_css do %>
+    <link rel="stylesheet" type="text/css" href="http://labchem.cf/assets/slider/engine1/style.css"/>
+<% end %>
+
+<% content_for :extra_js do %>
+    <script type="text/javascript" src="http://labchem.cf/assets/slider/engine1/jquery.js"></script>
+    <script type="text/javascript" src="http://labchem.cf/assets/slider/engine1/wowslider.js"></script>
+    <script type="text/javascript" src="http://labchem.cf/assets/slider/engine1/script.js"></script>
+
+<% end %>
+
+
+
+<%= render 'layouts/home_slider' %>
 <div id="pos_body">
   <div id='home'>
     <h2> Welcome to LAB CHEM </h2>

@@ -75,3 +75,6 @@ solution:
 <%= f.collection_select :status, ShipmentStatus.all, :id, :name, {:prompt => true}, {:class => 'chosen-select'} %>
 
 9. How to make sum using multiple params from a controller?
+
+
+10. How to use case statement(switch in php)?

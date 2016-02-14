@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
 <%= render 'layouts/home_head' %>
-<body style="background-color:#d7d7d7">
+<body <%= yield :style %>>
 <div class="container">
   <%= render 'layouts/home_nav' %>
-
-  <%= render 'layouts/home_slider' %>
-
-  <%= render 'layouts/home_body' %>
 
   <%= yield %>
 

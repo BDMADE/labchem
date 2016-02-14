@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :carts
   resources :products
   resources :suppliers
   resources :categories
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'admin' =>'admin#index'
   get 'dashboard' =>'admin#dashboard'
+  get 'product/order'=>'home#order'
+  get 'labchem/products'=>'home#labchem_products'
 
 
   devise_for :users, controllers: {registrations: 'registrations'}

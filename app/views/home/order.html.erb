@@ -1,0 +1,434 @@
+<% content_for :extra_css do %>
+    <!-------------------------------- INCLUDE CSS ------------------------------------>
+    <link href="http://labchem.cf/assets/jqwidgets/styles/jqx.base.css" rel="stylesheet">
+<% end %>
+
+  <div id="pos_body">
+
+<%= render 'home/orderpage_script' %>
+
+    <!-------------------------------- HTML START ------------------------------------>
+    <div id='jqxWidget'>
+      <div id='jqxTabs'>
+        <ul>
+          <li>    <strong>SELECT PRODUCTS</strong>       </li>
+          <li>    <strong>DELIVERY INFO</strong>   </li>
+          <li>    <strong>SUMMARY</strong>              </li>
+        </ul>
+        <div class="section">   <!--PRODUCT SELECTOR-->
+          <div id="sectionButtonsWrapper"><input type="button" value="Next" class="nextButton" id="product_selector_button_next" /></div>
+
+          <br/>
+          <small><strong> * CLICK ADD BUTTONS TO ADD PRODUCTS TO CART * </strong></small>
+          <div id="labchem_products"></div>
+
+          <br/><br/>
+          <small><strong> * DOUBLE CLICK ON ENTRY TO ADJUST QUANTITY * </strong></small>
+          <small><strong> CLICK REMOVE TO REMOVE ENTRY * </strong></small>
+          <div id="labchem_carts"></div>
+          <small><strong>PRODUCTS TOTAL PRICE<div id="products_total1"></div></strong></small>                                               </div>
+
+        <div class="section">   <!--DELIVERY INFORMATION-->
+          <div id="form">
+            <div class="inputContainer"> Name: <input value="Name" class="formInput" type="text" id="name" /></div>
+            <div class="inputContainer"> Phone1: <input value="01926-111-222" class="formInput" type="text" id="phone1" /></div>
+            <div class="inputContainer"> Phone2: <input value="01731-444-555" class="formInput" type="text" id="phone2" /></div>
+            <div class="inputContainer"> Email: <input value="x@y.com" class="formInput" type="text" id="email" /></div>
+            <div class="inputContainer"> Company: <input value="IBM Canada" class="formInput" type="text" id="company" /></div>
+            <div class="inputContainer"> Delivery Address: <input value="123 Main Street" class="formInput" type="text" id="delivery_address" /></div>
+          </div>
+          <div id="basketButtonsWrapper">
+            <!--<input type="button" value="Back" class="backButton" id="delivery_info_button_back" />-->
+            <input type="button" value="Next" class="nextButton" id="delivery_info_button_next" />
+          </div>
+        </div>
+
+        <div class="section">
+          <!--<div id="sectionButtonsWrapper"><input type="button" value="Back" class="backButton" id="thankyou_button_back" /></div>-->
+
+          <br/><!-- SUMMARY -->
+          <small><strong>YOU SELECTED FOLLOWING PRODUCTS<div id="products_selected"></div></strong></small>
+
+          <small><strong>PRODUCTS TOTAL PRICE<div id="products_total2"></div></strong></small>
+
+          <small><strong>CHECK THE DELIVERY INFO YOU PROVIDED<div id="products_delivery_info"></div></strong></small>
+
+          <input type="button" value="Cancel Order" class="" id="thankyou_button_cancel" />
+          <input type="button" value="Submit Order" class="" id="thankyou_button_submit" />
+        </div>
+      </div>
+    </div> <!-- jqxWidget END -->
+
+    <!-------------------------------- JAVASCRIPT START ------------------------------------>
+    <script type="text/javascript">
+        window.onbeforeunload = confirmExit;
+        function confirmExit()
+        {
+            var xmlhttp;
+
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+//                alert("**************");
+                }
+            }
+            xmlhttp.open('GET', "<%= root_url %>", false);   //********* 0
+            xmlhttp.send();
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#jqxTabs').jqxTabs({width: 930, height: 640, keyboardNavigation: false});
+            $('#jqxTabs').jqxTabs('disableAt', 1);
+            $('#jqxTabs').jqxTabs('disableAt', 2);
+
+            function ajax_calculate_products_total(div_to_populate) {
+                var url = 'http://labchem.cf/index.php/front/ajax/products_total'; //********************************** 8
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    success: function(data, status, xhr) {
+                        $(div_to_populate).html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+            }
+            var labchem_products = {//############# labchem_products BEGIN ################
+                datatype: "json",
+                datafields: [
+                    {name: 'id'},
+                    {name: 'name'},
+                    {name: 'unit_price'}
+                ],
+                id: 'id',
+                url: '<%= root_url %>labchem/products.json', //****************************************** 1
+                cache: false
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(labchem_products);
+
+            $("#labchem_products").jqxGrid({
+                width: 850,
+                height: 250,
+                scrollmode: 'default',
+                source: dataAdapter,
+                editable: false,
+                selectionmode: 'singlerow',
+                columns: [
+                    {text: 'Add', datafield: 'Add', columntype: 'button', width: 100, cellsrenderer: function() {
+                        return "Add";
+                    },
+                        buttonclick: function(row) {
+                            var dataRecord = $("#labchem_products").jqxGrid('getrowdata', row),
+                                    id = dataRecord.id,
+                                    name = dataRecord.name,
+                                    unit_price = dataRecord.unit_price,
+                                    url = 'http://labchem.cf/index.php/front/ajax/labchem_carts',
+                                    data = "INSERT=true"    //********************************************************************** 2
+                                            + "&id=" + id
+                                            + "&product_name=" + name
+                                            + "&unit_price=" + unit_price;
+                            $.ajax({
+                                dataType: 'json',
+                                url: url,
+                                cache: false,
+                                data: data,
+                                success: function(data, status, xhr) {
+                                    ajax_calculate_products_total('#products_total1');
+                                    $('#labchem_carts').jqxGrid('updatebounddata');
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                }
+                            })
+                        }
+                    },
+                    {text: 'id', datafield: 'id', width: 100, hidden: true},
+                    {text: 'name', datafield: 'name', columntype: 'textbox', width: 500},
+                    {text: 'unit_price', datafield: 'unit_price', columntype: 'numberinput', width: 100}
+                ]
+            }); //############# labchem_products END ################
+
+            var labchem_carts = {//############# labchem_carts BEGIN ################
+                datatype: "json",
+                datafields: [
+                    {name: 'id'},
+                    {name: 'product_name'},
+                    {name: 'unit_price'},
+                    {name: 'quantity'},
+                    {name: 'total'}
+                ],
+                id: 'id',
+                url: 'http://labchem.cf/index.php/front/ajax/labchem_carts', //********************************************** 3
+                updaterow: function(rowid, rowdata, commit) {
+                    var url = 'http://labchem.cf/index.php/front/ajax/labchem_carts',
+                            data = "UPDATE=true"    //****************************************************************************** 4
+                                    + "&id=" + rowdata.id
+                                    + "&unit_price=" + rowdata.unit_price
+                                    + "&quantity=" + rowdata.quantity;
+                    $.ajax({
+                        dataType: 'json',
+                        url: url,
+                        cache: false,
+                        data: data,
+                        success: function(data, status, xhr) {
+                            ajax_calculate_products_total('#products_total1');
+                            $('#labchem_carts').jqxGrid('updatebounddata');
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                        }
+                    })
+                },
+                cache: false
+            };
+            var dataAdapter = new $.jqx.dataAdapter(labchem_carts);
+
+            $("#labchem_carts").jqxGrid({
+                width: 850,
+                height: 200,
+                source: dataAdapter,
+                editable: true,
+                showstatusbar: false,
+//            statusbarheight: 50,
+                showaggregates: false, // This line should show the aggregate, but it is not working
+                selectionmode: 'singlerow',
+                editmode: 'selectedrow',
+                columns: [
+                    {text: 'Remove', datafield: 'Remove', columntype: 'button', width: 100, cellsrenderer: function() {
+                        return "Remove";
+                    },
+                        buttonclick: function(row) {
+                            var dataRecord = $("#labchem_carts").jqxGrid('getrowdata', row),
+                                    id = dataRecord.id,
+                                    url = 'http://labchem.cf/index.php/front/ajax/labchem_carts',
+                                    data = "DELETE=true" + "&id=" + id;  //***************************************** 5
+                            $.ajax({
+                                dataType: 'json',
+                                url: url,
+                                cache: false,
+                                data: data,
+                                success: function(data, status, xhr) {
+                                    ajax_calculate_products_total('#products_total1');
+                                    $('#labchem_carts').jqxGrid('updatebounddata');
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                }
+                            })
+                        }
+                    },
+                    {text: 'id', datafield: 'id', width: 100 /* , hidden: true */},
+                    {text: 'product_name', datafield: 'product_name', width: 300},
+                    {text: 'unit_price', datafield: 'unit_price', width: 100},
+                    {text: 'quantity', datafield: 'quantity', columntype: 'numberinput', width: 100},
+                    {text: 'total', datafield: 'total', aggregates: ['sum']}
+                ]
+            });//############# labchem_carts END ################
+
+            $('#product_selector_button_next').jqxButton({width: 50});
+            $('#product_selector_button_next').click(function() {
+                $('#jqxTabs').jqxTabs('disableAt', 0);
+                $('#jqxTabs').jqxTabs('enableAt', 1);
+                $('#jqxTabs').jqxTabs('next');
+            });
+
+            $('#delivery_info_button_next').jqxButton({width: 50});
+            $('#delivery_info_button_next').click(function() {
+                var url = 'http://labchem.cf/index.php/front/ajax/labchem_customers',
+                        data = "INSERT=true" + //*********************************************************************************** 6
+                                "&name=" + $('#name').val() +
+                                "&phone1=" + $('#phone1').val() +
+                                "&phone2=" + $('#phone2').val() +
+                                "&email=" + $('#email').val() +
+                                "&company=" + $('#company').val() +
+                                "&delivery_address=" + $('#delivery_address').val();
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    data: data,
+                    success: function(data, status, xhr) {
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+
+                var url = 'http://labchem.cf/index.php/front/ajax/products_selected'; //************************************* 7
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    success: function(data, status, xhr) {
+                        $('#products_selected').html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+
+                var url = 'http://labchem.cf/index.php/front/ajax/products_total'; //********************************** 8
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    success: function(data, status, xhr) {
+                        $('#products_total2').html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+
+                var url = 'http://labchem.cf/index.php/front/ajax/products_delivery_info'; //******************************** 9
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    success: function(data, status, xhr) {
+                        $('#products_delivery_info').html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+
+                $('#jqxTabs').jqxTabs('disableAt', 1);
+                $('#jqxTabs').jqxTabs('enableAt', 2);
+                $('#jqxTabs').jqxTabs('next');
+            });
+
+            $('#thankyou_button_cancel').jqxButton({width: 200});
+            $('#thankyou_button_cancel').click(function() {
+                document.location.reload(true);
+            });
+
+            $('#thankyou_button_submit').jqxButton({width: 100});
+            $('#thankyou_button_submit').click(function() {
+                var url = 'http://labchem.cf/index.php/front/ajax/labchem_orders';   //************************************** 10
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    success: function(data, status, xhr) {
+                        document.location.reload(true);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    }
+                })
+
+                $('#jqxTabs').jqxTabs('disable');
+            });
+        }); //  $(document).ready(function() END
+    </script>
+
+    <!-------------------------------- CSS START ------------------------------------>
+    <style type="text/css">
+        h1, h2, h3, h4, h5, h6{
+            margin: 0;
+            padding: 0;
+        }
+
+        #form {
+            height: 100px;
+            float: left;
+            margin-top: 30px;
+            margin-left: 20px;
+        }
+
+        .inputContainer {
+            width: 150px;
+        }
+
+        .formInput {
+            width: 150px;
+            outline: none;
+        }
+
+        #hintWrapper {
+            height: 130px;
+            float: right;
+        }
+
+        #hintSection {
+            float: left;
+            margin-top: 30px;
+            margin-right: 20px;
+            padding: 5px;
+            width: 225px;
+        }
+
+        #checkBoxWrapper {
+            float: left;
+            margin-left: 20px;
+            margin-top: 30px;
+        }
+
+        #section {
+            margin: 5px;
+        }
+
+        #sectionButtonsWrapper {
+            float: right;
+            margin-top: 30px;
+            margin-right: 10px;
+            width: 115px;
+        }
+
+        #hintBasket {
+            margin-left: 20px;
+            margin-top: 7px;
+            float: left;
+            padding: 5px;
+        }
+
+        .basket div {
+            position: relative;
+        }
+
+        .nextButton {
+            float: right;
+            margin-left: 0px;
+        }
+
+        .backButton {
+            float: left;
+            margin-left: 10px;
+        }
+
+        #basketButtonsWrapper {
+            float: right;
+            margin-top: 30px;
+            margin-right: 10px;
+            width: 115px;
+        }
+
+        #selectedProductsHeader {
+            margin-left: 20px;
+            float: left;
+            width: 200px;
+        }
+
+        #selectedProductsButtonsWrapper {
+            float: right;
+            margin-right: 10px;
+            width: 115px;
+            margin-top: 160px;
+        }
+
+        #products {
+            border: none;
+        }
+    </style>
+
+
+
+  </div>
+
+
+</body>
+</html>

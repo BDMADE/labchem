@@ -7,7 +7,7 @@
         <% @sliders.each do |slider| %>
 
             <li>
-              <%= image_tag slider.image.url(:medium), 'title'=> slider.caption %>
+              <%= image_tag slider.image.url(:medium), :title=> slider.caption %>
             </li>
         <% end %>
 
